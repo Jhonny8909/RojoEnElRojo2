@@ -56,9 +56,10 @@ Shader "Unlit/Liquid"
 
             fixed4 frag (v2f i,fixed facing : VFACE) : SV_Target
             {
-                fixed4 midEdge = step(i.liquidEdge,0.5) - smoothstep(i.liquidEdge,0.5,(0.5 - _MidAmount))
+                fixed4 midEdge = step(i.liquidEdge,0.5) - smoothstep(i.liquidEdge,0.5,(0.5 - _MidAmount));
                 fixed4 midEdgeColor = midEdge * _MidColor;
-                fixed4 base = step(i.liquidEdge,0.5) - midEdgeColor;
+                fixed4 base = step(i.liquidEdge,0.5) - midEdge;
+                fixed4 baseColor = base * _BaseColor;
                 fixed4 renderBase = baseColor + midEdgeColor;
                 fixed4 renderTop = _TopColor * (midEdge + base);
                 return facing > 0 ? renderBase : renderTop;
